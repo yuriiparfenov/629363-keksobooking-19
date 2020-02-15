@@ -15,7 +15,7 @@ var ARRAY_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:
     .querySelector('.map__card');*/
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var renderArrayOfAuthorObj = function () {
+var getArrayOfAuthorObj = function () {
   var array = [];
   var count = 1;
   for (var i = 0; i < OBJ_COUNT; i++) {
@@ -27,7 +27,7 @@ var renderArrayOfAuthorObj = function () {
   return array;
 };
 
-var renderArrayOfLocationObj = function () {
+var getArrayOfLocationObj = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
@@ -40,13 +40,13 @@ var renderArrayOfLocationObj = function () {
 };
 
 
-var renderArrayOfOffer = function () {
+var getArrayOfOffer = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
     array[i] = {
       title: 'Уютное гнездышко для молодоженов',
-      address: renderArrayOfLocationObj()[i],
+      address: getArrayOfLocationObj()[i],
       price: Math.round(Math.random() * (10000 - 3000) + 3000),
       type: ARRAY_GUESTS[Math.floor(Math.random() * ((ARRAY_GUESTS.length) - 0) + 0)],
       rooms: Math.round(Math.random() * (5 - 1) + 1),
@@ -62,14 +62,14 @@ var renderArrayOfOffer = function () {
   return array;
 };
 
-var renderArrayOfObjects = function () {
+var getArrayOfObjects = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
     array[i] = {
-      author: renderArrayOfAuthorObj()[i],
-      offer: renderArrayOfOffer()[i],
-      location: renderArrayOfLocationObj()[i]
+      author: getArrayOfAuthorObj()[i],
+      offer: getArrayOfOffer()[i],
+      location: getArrayOfLocationObj()[i]
     };
   }
 
@@ -114,7 +114,7 @@ map.classList.remove('map--faded');
   return cardElement;
 };*/
 
-var getPins = function (pin) {
+var generatePins = function (pin) {
   var pinElement = templatePin.cloneNode(true);
   pinElement.style = 'left: ' + (pin.location.x + X_PINS) + 'px; top: ' + (pin.location.y + Y_PINS) + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
@@ -127,11 +127,11 @@ var renderPins = function (element, arrayPins) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < arrayPins.length; i++) {
-    fragment.appendChild(getPins(renderArrayOfObjects()[i]));
+    fragment.appendChild(generatePins(getArrayOfObjects()[i]));
 
   }
 
   element.appendChild(fragment);
 };
 
-renderPins(document.querySelector('.map__pins'), renderArrayOfObjects());
+renderPins(document.querySelector('.map__pins'), getArrayOfObjects());
