@@ -15,7 +15,7 @@ var ARRAY_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:
     .querySelector('.map__card');*/
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var getArrayOfAuthorObj = function () {
+var getAvatars = function () {
   var array = [];
   var count = 1;
   for (var i = 0; i < OBJ_COUNT; i++) {
@@ -27,7 +27,7 @@ var getArrayOfAuthorObj = function () {
   return array;
 };
 
-var getArrayOfLocationObj = function () {
+var getLocations = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
@@ -40,13 +40,13 @@ var getArrayOfLocationObj = function () {
 };
 
 
-var getArrayOfOffer = function () {
+var getOffers = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
     array[i] = {
       title: 'Уютное гнездышко для молодоженов',
-      address: getArrayOfLocationObj()[i],
+      address: getLocations()[i],
       price: Math.round(Math.random() * (10000 - 3000) + 3000),
       type: ARRAY_GUESTS[Math.floor(Math.random() * ((ARRAY_GUESTS.length) - 0) + 0)],
       rooms: Math.round(Math.random() * (5 - 1) + 1),
@@ -62,22 +62,25 @@ var getArrayOfOffer = function () {
   return array;
 };
 
-var getArrayOfObjects = function () {
+var getPids = function () {
   var array = [];
 
   for (var i = 0; i < OBJ_COUNT; i++) {
     array[i] = {
-      author: getArrayOfAuthorObj()[i],
-      offer: getArrayOfOffer()[i],
-      location: getArrayOfLocationObj()[i]
+      author: getAvatars()[i],
+      offer: getOffers()[i],
+      location: getLocations()[i]
     };
   }
 
   return array;
 };
 
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+var activateMap = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+};
+
+activateMap();
 /*
   var getCard = function (card) {
   var cardElement = templateCard.cloneNode(true);
@@ -127,11 +130,11 @@ var renderPins = function (element, arrayPins) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < arrayPins.length; i++) {
-    fragment.appendChild(generatePins(getArrayOfObjects()[i]));
+    fragment.appendChild(generatePins(getPids()[i]));
 
   }
 
   element.appendChild(fragment);
 };
 
-renderPins(document.querySelector('.map__pins'), getArrayOfObjects());
+renderPins(document.querySelector('.map__pins'), getPids());
