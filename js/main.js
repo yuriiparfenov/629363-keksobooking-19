@@ -11,8 +11,8 @@ var ARRAY_GUESTS = ['palace', 'flat', 'house', 'bungalo'];
 var ARRAY_CHECK = ['12:00', '13:00', '14:00'];
 var ARRAY_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var ARRAY_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-/* var templateCard = document.querySelector('#card').content
-    .querySelector('.map__card');*/
+var templateCard = document.querySelector('#card').content
+    .querySelector('.map__card');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getAvatars = function () {
@@ -81,14 +81,29 @@ var activateMap = function () {
 };
 
 activateMap();
-/*
-  var getCard = function (card) {
+var generateCard = function (card) {
   var cardElement = templateCard.cloneNode(true);
   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address.x + ',' + card.offer.address.y;
   cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ' + String.fromCharCode(8381) + '/ночь';
-  cardElement.querySelector('.popup__type').textContent = card.offer.type;
+
+  switch (card.offer.type) {
+    case 'flat' :
+      cardElement.querySelector('.popup__type').textContent = 'Квартира';
+      break;
+    case 'palace' :
+      cardElement.querySelector('.popup__type').textContent = 'Дворец';
+      break;
+    case 'house' :
+      cardElement.querySelector('.popup__type').textContent = 'Дом';
+      break;
+    case 'bungalo' :
+      cardElement.querySelector('.popup__type').textContent = 'Бунгало';
+      break;
+    default:
+      cardElement.querySelector('.popup__type').textContent = 'Квартира';
+  }
   cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
@@ -115,7 +130,7 @@ activateMap();
   }
 
   return cardElement;
-};*/
+};
 
 var generatePins = function (pin) {
   var pinElement = templatePin.cloneNode(true);
@@ -137,4 +152,12 @@ var renderPins = function (element, arrayPins) {
   element.appendChild(fragment);
 };
 
+var renderCard = function (element) {
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(generateCard(getPids()[0]));
+
+  element.appendChild(fragment);
+};
+
 renderPins(document.querySelector('.map__pins'), getPids());
+renderCard(document.querySelector('.map'), getPids());
